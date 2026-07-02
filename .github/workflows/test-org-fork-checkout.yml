@@ -16,7 +16,7 @@ jobs:
       - name: Checkout ci-gha-workflow
         uses: actions/checkout@v4
         with:
-          repository: opencv/ci-gha-workflow
+          repository: avdivan/ci-gha-workflow
           ref: main
 
       - name: Debug PR payload
