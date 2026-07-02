@@ -17,7 +17,6 @@ jobs:
         with:
           repository: opencv/ci-gha-workflow
           ref: main
-
       - name: Debug PR payload
         shell: bash
         run: |
