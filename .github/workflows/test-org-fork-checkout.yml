@@ -28,15 +28,16 @@ jobs:
           echo "Head ref: ${{ github.event.pull_request.head.ref }}"
           echo "Base ref: ${{ github.event.pull_request.base.ref }}"
 
-      - name: Checkout and merge OpenCV OLD behavior
+      - name: Checkout and merge OpenCV
         uses: ./checkout-and-merge
         with:
           target_branch: "${{ github.event.pull_request.base.ref }}"
-          author: "${{ github.event.pull_request.user.login }}"
+          author: "${{ github.event.pull_request.head.repo.owner.login }}"
           source_branch: "${{ github.event.pull_request.head.ref }}"
           gitcache: ''
           home: '${{ github.workspace }}'
           workdir: '${{ github.workspace }}'
+          repos: main
 
       - name: Show checkout result
         shell: bash
