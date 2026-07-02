@@ -1,0 +1,46 @@
+# .github/workflows/test-org-fork-checkout.yml
+
+name: Test org fork checkout
+
+on:
+  pull_request:
+    branches:
+      - 5.x
+      - 4.x
+
+jobs:
+  test-checkout-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ci-gha-workflow
+        uses: actions/checkout@v4
+        with:
+          repository: opencv/ci-gha-workflow
+          ref: main
+
+      - name: Debug PR payload
+        shell: bash
+        run: |
+          echo "PR author: ${{ github.event.pull_request.user.login }}"
+          echo "Head repo owner: ${{ github.event.pull_request.head.repo.owner.login }}"
+          echo "Head repo full_name: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "Head ref: ${{ github.event.pull_request.head.ref }}"
+          echo "Base ref: ${{ github.event.pull_request.base.ref }}"
+
+      - name: Checkout and merge OpenCV OLD behavior
+        uses: ./checkout-and-merge
+        with:
+          target_branch: "${{ github.event.pull_request.base.ref }}"
+          author: "${{ github.event.pull_request.user.login }}"
+          source_branch: "${{ github.event.pull_request.head.ref }}"
+          gitcache: ''
+          home: '${{ github.workspace }}'
+          workdir: '${{ github.workspace }}'
+
+      - name: Show checkout result
+        shell: bash
+        run: |
+          cd "${{ github.workspace }}/opencv"
+          git log --oneline -5
+          git remote -v
