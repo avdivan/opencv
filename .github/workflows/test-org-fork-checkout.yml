@@ -29,7 +29,7 @@ jobs:
           echo "Base ref: ${{ github.event.pull_request.base.ref }}"
 
       - name: Checkout and merge OpenCV
-        uses: ./checkout-and-merge
+        uses: ./checkout-and-merge 
         with:
           target_branch: "${{ github.event.pull_request.base.ref }}"
           author: "${{ github.event.pull_request.head.repo.owner.login }}"
