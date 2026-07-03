@@ -11,14 +11,12 @@ on:
 jobs:
   test-checkout-and-merge:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout ci-gha-workflow
         uses: actions/checkout@v4
         with:
           repository: avdivan/ci-gha-workflow
           ref: main
-
       - name: Debug PR payload
         shell: bash
         run: |
@@ -32,8 +30,8 @@ jobs:
         uses: ./checkout-and-merge 
         with:
           target_branch: "${{ github.event.pull_request.base.ref }}"
-          author: "${{ github.event.pull_request.head.repo.owner.login }}"
-          source_branch: "${{ github.event.pull_request.head.ref }}"
+          author: "${{ github.event.repository.name == 'ci-gha-workflow' && github.event.pull_request.user.login || github.event.pull_request.head.repo.owner.login }}"
+          source_branch: "${{ github.event.repository.name == 'ci-gha-workflow' && '' || github.event.pull_request.head.ref }}"
           gitcache: ''
           home: '${{ github.workspace }}'
           workdir: '${{ github.workspace }}'
